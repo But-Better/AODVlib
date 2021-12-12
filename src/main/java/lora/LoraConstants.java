@@ -40,7 +40,7 @@ public class LoraConstants {
     public final static String AT_SEND = "AT+SEND=";
 
     //DEFAULT AT COMMANDS
-    public static String defaultCfg = "433000000,20,6,10,1,1,0,0,0,3000,8,4,10\r\n";
+    public static String defaultCfg = "433000000,5,6,12,4,1,0,0,0,0,3000,8,8\r\n";
     public static String defaultAddr = "0001\r\n";
     public static String defaultDest = "FFFF\r\n";
 
