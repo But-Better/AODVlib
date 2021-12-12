@@ -8,7 +8,7 @@ public class RoutingRow extends Row {
     private int NextHop;
     private int[] precursors;
     private int sequenceNumber;
-    private boolean isValid;
+    private boolean isValid = true;
 
     public RoutingRow() {
         super(-1, -1);
@@ -52,6 +52,10 @@ public class RoutingRow extends Row {
 
     public void setValid(boolean valid) {
         isValid = valid;
+    }
+
+    public int twosComplementSubtract(int a, int b) {
+        return a + (~b + 1);
     }
 
     @Override
