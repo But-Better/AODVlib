@@ -3,7 +3,6 @@ package aodv.Handle;
 import aodv.packages.*;
 
 import java.util.Arrays;
-import java.util.Base64;
 
 public class StreamDataHandle {
 
@@ -12,7 +11,7 @@ public class StreamDataHandle {
      * @param msg as a byte array
      * @return msg as a packet object when the packet could be identified, null when the type could not be identified
      */
-    public Packet readDataTraffic(byte[] msg) {
+    public static Packet readDataTraffic(byte[] msg) {
         switch (Util.getPacketType(msg)){
             case 0: return returnRREQ(msg);
             case 1: return returnRREP(msg);
