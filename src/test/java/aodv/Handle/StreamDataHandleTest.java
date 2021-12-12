@@ -1,8 +1,6 @@
 package aodv.Handle;
 
-import aodv.packages.MsgPacket;
-import aodv.packages.RrepPacket;
-import aodv.packages.RreqPacket;
+import aodv.packages.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -112,6 +110,43 @@ public class StreamDataHandleTest {
     }
 
     @Test
+    void testRERRHandler(){
+        byte[] incommingMSG = new byte[12];
+        incommingMSG[0] = 32; //type + flag
+        incommingMSG[1] = 8; //hop
+        incommingMSG[2] = 1; //prevhop
+
+        incommingMSG[3] = 2; //path count
+        incommingMSG[4] = 3; //destaddr 1
+        incommingMSG[5] = 4; //destseq 1
+
+        incommingMSG[6] = 5; //destaddr 2
+        incommingMSG[7] = 6; //destseq 2
+        incommingMSG[8] = 0; //padding
+
+        incommingMSG[9] = 7; //destaddr 3
+        incommingMSG[10] = 8; //destaddr 3
+        incommingMSG[11] = 0; //padding
+
+        RerrPacket rerrPacket = StreamDataHandle.returnRERR(incommingMSG);
+
+        assertEquals(2,rerrPacket.getMessageType());
+        assertEquals(0,rerrPacket.getFlags());
+        assertEquals(8,rerrPacket.getHopAddress());
+        assertEquals(1,rerrPacket.getPrevHopAddress());
+        assertEquals(2,rerrPacket.getPathCount());
+        assertEquals(3,rerrPacket.getDestAdresses()[0]);
+        assertEquals(4,rerrPacket.getDestSequences()[0]);
+
+        assertEquals(5,rerrPacket.getDestAdresses()[1]);
+        assertEquals(6,rerrPacket.getDestSequences()[1]);
+
+        assertEquals(7,rerrPacket.getDestAdresses()[2]);
+        assertEquals(8,rerrPacket.getDestSequences()[2]);
+
+    }
+
+    @Test
     void testMSGHandler(){
         byte[] incommingMSG = new byte[10];
         incommingMSG[0] = 16+32;
@@ -136,6 +171,22 @@ public class StreamDataHandleTest {
         assertEquals(3,msgPacket.getOriginSequence());
         assertEquals(4,msgPacket.getHopCount());
         assertEquals("ABCD",msgPacket.getText());
+
+    }
+
+    @Test
+    void testAckHandler(){
+        byte[] incommingMSG = new byte[3];
+        incommingMSG[0] = 65;
+        incommingMSG[1] = 8;
+        incommingMSG[2] = 1;
+
+        AckPacket ackPacket = StreamDataHandle.returnAck(incommingMSG);
+
+        assertEquals(4,ackPacket.getMessageType());
+        assertEquals(1,ackPacket.getFlags());
+        assertEquals(8,ackPacket.getHopAddress());
+        assertEquals(1,ackPacket.getPrevHopAddress());
 
     }
 

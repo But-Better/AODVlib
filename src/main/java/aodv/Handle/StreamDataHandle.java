@@ -1,9 +1,6 @@
 package aodv.Handle;
 
-import aodv.packages.MsgPacket;
-import aodv.packages.RerrPacket;
-import aodv.packages.RrepPacket;
-import aodv.packages.RreqPacket;
+import aodv.packages.*;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -140,6 +137,20 @@ public class StreamDataHandle {
         msgPacket.setText(decodedMSG);
 
         return msgPacket;
+    }
+
+    public static AckPacket returnAck(byte[] ack){
+        AckPacket ackPacket = new AckPacket();
+
+        int type = 4;
+        int flags = returnFlags(ack[0]);
+
+        ackPacket.setMessageType(type);
+        ackPacket.setFlags(flags);
+        ackPacket.setHopAddress(ack[1]);
+        ackPacket.setPrevHopAddress(ack[2]);
+
+        return ackPacket;
     }
 
     private static int returnFlags(byte typeAndFlags){
