@@ -75,4 +75,12 @@ public class RoutingTabelle {
     public boolean isEmptyRoutingRows() {
         return this.routingRows.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        return "RoutingTabelle{" +
+                "routingRows=" + routingRows +
+                ", reversRoutingRows=" + reversRoutingRows +
+                '}';
+    }
 }
