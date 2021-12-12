@@ -23,24 +23,12 @@ public class StreamDataHandle {
     }
 
     /**
-     * returns the type of the message as an integer
-     * @param msg that is recieved
-     * @return 0 for RREQ, 1 for RREP, 2 for RERR, 3 for MSG, 4 for ACK
-     */
-    public static int getPacketType(byte[] msg){
-        if(msg[0]%2==1){
-            return ((msg[0] - 1) / (int) Math.pow(2, 4));
-        }
-        return ((msg[0]) / (int) Math.pow(2, 4));
-    }
-
-    /**
      * takes a byte array that is a rreq message and turns it into an rreq object
+     *
      * @param rreq message as a byte array
      * @return rreq object
      */
-    public static RreqPacket returnRREQ(byte[] rreq){
-
+    public static RreqPacket returnRREQ(byte[] rreq) {
         RreqPacket returnRreq = new RreqPacket();
 
         int type = 0;
@@ -62,10 +50,11 @@ public class StreamDataHandle {
 
     /**
      * takes a byte array that is a rrep message and turns it into an rrep object
+     *
      * @param rrep message as a byte array
      * @return rrep object
      */
-    public static RrepPacket returnRREP(byte[] rrep){
+    public static RrepPacket returnRREP(byte[] rrep) {
         RrepPacket rrepPacket = new RrepPacket();
 
         int type = 1;
@@ -87,10 +76,11 @@ public class StreamDataHandle {
 
     /**
      * takes a byte array that is a rerr message and turns it into an rerr object
+     *
      * @param rerr message as a byte array
      * @return rerr object
      */
-    public static RerrPacket returnRERR(byte[] rerr){
+    public static RerrPacket returnRERR(byte[] rerr) {
         RerrPacket rerrPacket = new RerrPacket();
 
         int type = 2;
@@ -103,16 +93,16 @@ public class StreamDataHandle {
         rerrPacket.setPathCount(rerr[3]);
 
         int rerrHight = rerr.length / 3;
-        int amountOfAdressesAndDestSequences = rerrHight-1;
+        int amountOfAdressesAndDestSequences = rerrHight - 1;
         int[] destAdress = new int[amountOfAdressesAndDestSequences];
         int[] destSequence = new int[amountOfAdressesAndDestSequences];
 
         destAdress[0] = rerr[4];
-        destSequence[0]= rerr[5];
+        destSequence[0] = rerr[5];
 
-        for(int i = 1; i < amountOfAdressesAndDestSequences;++i){
-            destAdress[i] = rerr[3+3*i];
-            destSequence[i] = rerr[4+3*i];
+        for (int i = 1; i < amountOfAdressesAndDestSequences; ++i) {
+            destAdress[i] = rerr[3 + 3 * i];
+            destSequence[i] = rerr[4 + 3 * i];
         }
 
         rerrPacket.setDestAdresses(destAdress);
@@ -121,7 +111,7 @@ public class StreamDataHandle {
         return rerrPacket;
     }
 
-    public static MsgPacket returnMSG(byte[] msg){
+    public static MsgPacket returnMSG(byte[] msg) {
         MsgPacket msgPacket = new MsgPacket();
 
         int type = 3;
@@ -135,15 +125,15 @@ public class StreamDataHandle {
         msgPacket.setOriginSequence(msg[4]);
         msgPacket.setHopCount(msg[5]);
 
-        byte[] msgMessagePart = Arrays.copyOfRange(msg,6,msg.length);
+        byte[] msgMessagePart = Arrays.copyOfRange(msg, 6, msg.length);
         String decodedMSG = new String(msgMessagePart);
         msgPacket.setText(decodedMSG);
 
         return msgPacket;
     }
 
-    private static int returnFlags(byte typeAndFlags){
-        if(typeAndFlags%2==1){
+    private static int returnFlags(byte typeAndFlags) {
+        if (typeAndFlags % 2 == 1) {
             return 1;
         }
         return 0;
