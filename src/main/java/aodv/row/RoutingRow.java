@@ -10,6 +10,10 @@ public class RoutingRow extends Row {
     private int sequenceNumber;
     private boolean isValid;
 
+    public RoutingRow() {
+        super(-1, -1);
+    }
+
     public RoutingRow(int destination, int metrix, int nextHop, int[] precursors, int sequenceNumber, boolean isValid) {
         super(destination, metrix);
         NextHop = nextHop;
@@ -49,8 +53,6 @@ public class RoutingRow extends Row {
     public void setValid(boolean valid) {
         isValid = valid;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

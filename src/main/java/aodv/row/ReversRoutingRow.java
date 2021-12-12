@@ -8,6 +8,10 @@ public class ReversRoutingRow extends Row {
     private int rreqId;
     private int previousHop;
 
+    public ReversRoutingRow() {
+        super(-1, -1);
+    }
+
     public ReversRoutingRow(int destination, int metrix, int source, int rreqId, int previousHop) {
         super(destination, metrix);
         this.source = source;
