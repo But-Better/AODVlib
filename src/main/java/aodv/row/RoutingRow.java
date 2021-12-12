@@ -1,5 +1,7 @@
 package aodv.row;
 
+import aodv.Handle.Util;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -55,7 +57,7 @@ public class RoutingRow extends Row {
     }
 
     public int twosComplementSubtract(int a, int b) {
-        return a + (~b + 1);
+        return Util.twosComplementSubtract(a, b);
     }
 
     @Override
