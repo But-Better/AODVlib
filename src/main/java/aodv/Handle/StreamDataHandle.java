@@ -7,16 +7,20 @@ import java.util.Base64;
 
 public class StreamDataHandle {
 
-    public String readDataTraffic(byte[] msg) {
-        return analysePacket(Base64.getEncoder().encodeToString(msg));
-    }
-
-    private String analysePacket(String text) {
-        switch (text) {
-            case "1":
-                return "new AckPacket();";
+    /**
+     * takes the byte input array, that is recieved and returns an Packet Objekt of the given package type
+     * @param msg as a byte array
+     * @return msg as a packet object when the packet could be identified, null when the type could not be identified
+     */
+    public Packet readDataTraffic(byte[] msg) {
+        switch (Util.getPacketType(msg)){
+            case 0: return returnRREQ(msg);
+            case 1: return returnRREP(msg);
+            case 2: return returnRERR(msg);
+            case 3: return returnMSG(msg);
+            case 4: return returnAck(msg);
+            default: return null;
         }
-        return null;
     }
 
     /**
@@ -108,6 +112,12 @@ public class StreamDataHandle {
         return rerrPacket;
     }
 
+    /**
+     * takes a byte array that is a msg message and turns it into an msg object
+     *
+     * @param msg message as a byte array
+     * @return msg object
+     */
     public static MsgPacket returnMSG(byte[] msg) {
         MsgPacket msgPacket = new MsgPacket();
 
@@ -129,6 +139,12 @@ public class StreamDataHandle {
         return msgPacket;
     }
 
+    /**
+     * takes a byte array that is a ack message and turns it into an ack object
+     *
+     * @param ack message as a byte array
+     * @return ack object
+     */
     public static AckPacket returnAck(byte[] ack){
         AckPacket ackPacket = new AckPacket();
 
@@ -143,7 +159,11 @@ public class StreamDataHandle {
         return ackPacket;
     }
 
-
+    /**
+     * takes the first byte and returns 1 if a flag is set 0 if not
+     * @param typeAndFlags the first byte of the byte array input
+     * @return 1 if a flag is set 0 if not
+     */
     private static int returnFlags(byte typeAndFlags) {
         if (typeAndFlags % 2 == 1) {
             return 1;
