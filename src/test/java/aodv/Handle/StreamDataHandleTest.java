@@ -21,38 +21,38 @@ public class StreamDataHandleTest {
         incommingMSG[8] = 7;
 
         //rreq no flags
-        assertEquals(0,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(0, Util.getPacketType(incommingMSG));
         //rreq with flag
         incommingMSG[0] = 1;
-        assertEquals(0,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(0, Util.getPacketType(incommingMSG));
 
         //rrep no flags
         incommingMSG[0] = 16;
-        assertEquals(1,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(1, Util.getPacketType(incommingMSG));
         //rrep with flags
         incommingMSG[0] = 17;
-        assertEquals(1,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(1, Util.getPacketType(incommingMSG));
 
         //rerr no flags
         incommingMSG[0] = 32;
-        assertEquals(2,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(2, Util.getPacketType(incommingMSG));
         //rerr with flag
         incommingMSG[0] = 33;
-        assertEquals(2,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(2, Util.getPacketType(incommingMSG));
 
         //msg no flags
         incommingMSG[0] = 16+32;
-        assertEquals(3,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(3, Util.getPacketType(incommingMSG));
         //msg with flag
         incommingMSG[0] = 16+32+1;
-        assertEquals(3,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(3, Util.getPacketType(incommingMSG));
 
         //ack no flags
         incommingMSG[0] = 64;
-        assertEquals(4,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(4, Util.getPacketType(incommingMSG));
         //ack with flag
         incommingMSG[0] = 64+1;
-        assertEquals(4,StreamDataHandle.getPacketType(incommingMSG));
+        assertEquals(4, Util.getPacketType(incommingMSG));
     }
 
     @Test
