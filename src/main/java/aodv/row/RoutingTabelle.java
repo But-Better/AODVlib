@@ -5,7 +5,6 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class RoutingTabelle {
 
@@ -67,5 +66,13 @@ public class RoutingTabelle {
 
     public void setReversRoutingRows(List<ReversRoutingRow> reversRoutingRows) {
         this.reversRoutingRows = reversRoutingRows;
+    }
+
+    public boolean isEmptyReversRoutingRow() {
+        return this.reversRoutingRows.isEmpty();
+    }
+
+    public boolean isEmptyRoutingRows() {
+        return this.routingRows.isEmpty();
     }
 }
