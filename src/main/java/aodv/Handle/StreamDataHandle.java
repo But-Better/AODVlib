@@ -2,8 +2,6 @@ package aodv.Handle;
 
 import java.util.Base64;
 
-import de.kai_morich.simple_bluetooth_terminal.aodv.packages.RreqPacket;
-
 public class StreamDataHandle {
 
 
