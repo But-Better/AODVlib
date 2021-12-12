@@ -1,13 +1,14 @@
 package aodv.Handle;
 
+import aodv.packages.MsgPacket;
+import aodv.packages.RerrPacket;
 import aodv.packages.RrepPacket;
 import aodv.packages.RreqPacket;
 
+import java.util.Arrays;
 import java.util.Base64;
 
 public class StreamDataHandle {
-
-
 
     public String readDataTraffic(byte[] msg) {
         return analysePacket(Base64.getEncoder().encodeToString(msg));
@@ -26,7 +27,7 @@ public class StreamDataHandle {
      * @param msg that is recieved
      * @return 0 for RREQ, 1 for RREP, 2 for RERR, 3 for MSG, 4 for ACK
      */
-    public int getPacketType(byte[] msg){
+    public static int getPacketType(byte[] msg){
         if(msg[0]%2==1){
             return ((msg[0] - 1) / (int) Math.pow(2, 4));
         }
@@ -38,7 +39,7 @@ public class StreamDataHandle {
      * @param rreq message as a byte array
      * @return rreq object
      */
-    public RreqPacket returnRREQ(byte[] rreq){
+    public static RreqPacket returnRREQ(byte[] rreq){
 
         RreqPacket returnRreq = new RreqPacket();
 
@@ -64,7 +65,7 @@ public class StreamDataHandle {
      * @param rrep message as a byte array
      * @return rrep object
      */
-    public RrepPacket returnRREP(byte[] rrep){
+    public static RrepPacket returnRREP(byte[] rrep){
         RrepPacket rrepPacket = new RrepPacket();
 
         int type = 1;
@@ -84,7 +85,64 @@ public class StreamDataHandle {
         return rrepPacket;
     }
 
-    private int returnFlags(byte typeAndFlags){
+    /**
+     * takes a byte array that is a rerr message and turns it into an rerr object
+     * @param rerr message as a byte array
+     * @return rerr object
+     */
+    public static RerrPacket returnRERR(byte[] rerr){
+        RerrPacket rerrPacket = new RerrPacket();
+
+        int type = 2;
+        int flags = returnFlags(rerr[0]);
+
+        rerrPacket.setMessageType(type);
+        rerrPacket.setFlags(flags);
+        rerrPacket.setHopAddress(rerr[1]);
+        rerrPacket.setPrevHopAddress(rerr[2]);
+        rerrPacket.setPathCount(rerr[3]);
+
+        int rerrHight = rerr.length / 3;
+        int amountOfAdressesAndDestSequences = rerrHight-1;
+        int[] destAdress = new int[amountOfAdressesAndDestSequences];
+        int[] destSequence = new int[amountOfAdressesAndDestSequences];
+
+        destAdress[0] = rerr[4];
+        destSequence[0]= rerr[5];
+
+        for(int i = 1; i < amountOfAdressesAndDestSequences;++i){
+            destAdress[i] = rerr[3+3*i];
+            destSequence[i] = rerr[4+3*i];
+        }
+
+        rerrPacket.setDestAdresses(destAdress);
+        rerrPacket.setDestSequences(destSequence);
+
+        return rerrPacket;
+    }
+
+    public static MsgPacket returnMSG(byte[] msg){
+        MsgPacket msgPacket = new MsgPacket();
+
+        int type = 3;
+        int flags = returnFlags(msg[0]);
+
+        msgPacket.setMessageType(type);
+        msgPacket.setFlags(flags);
+        msgPacket.setHopAddress(msg[1]);
+        msgPacket.setPrevHopAddress(msg[2]);
+        msgPacket.setDestAddress(msg[3]);
+        msgPacket.setOriginSequence(msg[4]);
+        msgPacket.setHopCount(msg[5]);
+
+        byte[] msgMessagePart = Arrays.copyOfRange(msg,6,msg.length);
+        String decodedMSG = new String(msgMessagePart);
+        msgPacket.setText(decodedMSG);
+
+        return msgPacket;
+    }
+
+    private static int returnFlags(byte typeAndFlags){
         if(typeAndFlags%2==1){
             return 1;
         }
