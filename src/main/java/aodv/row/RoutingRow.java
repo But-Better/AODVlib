@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class RoutingRow extends Row {
 
+    private transient String name;
     private int NextHop;
     private int[] precursors;
     private int sequenceNumber;
@@ -16,12 +17,31 @@ public class RoutingRow extends Row {
         super(-1, -1);
     }
 
+    /**
+     * @param destination    = Finales ziel
+     * @param metrix         = Hops bis zum ziel
+     * @param nextHop        = Nächstes geräte
+     * @param precursors     = Wer verwendet die Route
+     * @param sequenceNumber = Epoche oder auch Aktualität
+     *                       Die sequence number wird als unsigned gezählt aber
+     *                       als sigend (zweierkomplement) interpretiert
+     * @see "Util.twosComplementSubtract()"
+     * @param isValid        = check of sequenceNumber
+     */
     public RoutingRow(int destination, int metrix, int nextHop, int[] precursors, int sequenceNumber, boolean isValid) {
         super(destination, metrix);
         NextHop = nextHop;
         this.precursors = precursors;
         this.sequenceNumber = sequenceNumber;
         this.isValid = isValid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getNextHop() {
@@ -78,8 +98,9 @@ public class RoutingRow extends Row {
 
     @Override
     public String toString() {
-        return "RoutingTabelle{" +
-                "NextHop=" + NextHop +
+        return "RoutingRow{" +
+                "name='" + name + '\'' +
+                ", NextHop=" + NextHop +
                 ", precursors=" + Arrays.toString(precursors) +
                 ", sequenceNumber=" + sequenceNumber +
                 ", isValid=" + isValid +

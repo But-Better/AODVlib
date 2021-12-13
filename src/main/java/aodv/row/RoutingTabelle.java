@@ -25,6 +25,10 @@ public class RoutingTabelle {
         return instance;
     }
 
+    public boolean searchForNode(){
+        return false;
+    }
+
     public boolean add(Row row) {
         if (row instanceof ReversRoutingRow) {
             log.info(() -> "add instanceof ReversRoutingRow");

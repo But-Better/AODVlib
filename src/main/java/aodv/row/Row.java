@@ -7,6 +7,12 @@ public abstract class Row {
     private int destination;
     private int metrix;
 
+    /**
+     *
+     * @param destination = dest address
+     * @param metrix = anzahl der Hops
+     *
+     */
     Row(int destination, int metrix) {
         this.destination = destination;
         this.metrix = metrix;
