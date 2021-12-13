@@ -7,11 +7,11 @@ public class LoraCommando {
     private final static String END_OF_LINE = "\r\n";
 
     public static String[] sendMsg(Base64 msg) {
-        return new String[]{LoraConstants.AT_SEND + msg.toString().length(), msg + END_OF_LINE};
+        return new String[]{LoraConstants.AT_SEND + msg.toString().length() + END_OF_LINE, msg + END_OF_LINE};
     }
 
     public static String[] sendMsg(String msg) {
-        return new String[]{LoraConstants.AT_SEND + msg.length(), msg + END_OF_LINE};
+        return new String[]{LoraConstants.AT_SEND + msg.length() + END_OF_LINE, msg + END_OF_LINE};
     }
 
     public static String[] changeAddress(String address) throws IllegalArgumentException {
