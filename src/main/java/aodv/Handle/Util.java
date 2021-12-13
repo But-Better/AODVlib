@@ -87,6 +87,15 @@ public class Util {
         }
     }
 
+    public static void initCallbackOfNode() {
+        if (RoutingTabelle.getInstance().isEmptyRoutingRows()) {
+            RoutingTabelle.getInstance().add(new RoutingRow(
+
+            ));
+        }
+
+    }
+
     private <T extends Packet> byte[] objectToByteArray(T packet) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = null;
