@@ -1,4 +1,4 @@
-package aodv.packages;
+package aodv.packet;
 
 public class AckPacket extends Packet {
 

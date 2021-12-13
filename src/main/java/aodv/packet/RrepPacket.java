@@ -1,4 +1,4 @@
-package aodv.packages;
+package aodv.packet;
 
 public class RrepPacket extends ReqRepBase {
     private int ttl;

@@ -1,4 +1,4 @@
-package aodv.packages;
+package aodv.packet;
 
 public class RreqPacket extends ReqRepBase {
     private int originSequence;
