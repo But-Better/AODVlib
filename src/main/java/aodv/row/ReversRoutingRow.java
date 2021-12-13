@@ -12,6 +12,14 @@ public class ReversRoutingRow extends Row {
         super(-1, -1);
     }
 
+    /**
+     *
+     * @param destination =  An wem ging der RREQ
+     * @param metrix = Hops bis zum Ziel
+     * @param source = Wer hat RREQ gesendet
+     * @param rreqId = RREQ ID
+     * @param previousHop =  Von wem wurde der Hops erfasst
+     */
     public ReversRoutingRow(int destination, int metrix, int source, int rreqId, int previousHop) {
         super(destination, metrix);
         this.source = source;

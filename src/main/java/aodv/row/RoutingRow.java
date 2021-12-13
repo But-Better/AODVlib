@@ -16,6 +16,17 @@ public class RoutingRow extends Row {
         super(-1, -1);
     }
 
+    /**
+     * @param destination    = Finales ziel
+     * @param metrix         = Hops bis zum ziel
+     * @param nextHop        = Nächstes geräte
+     * @param precursors     = Wer verwendet die Route
+     * @param sequenceNumber = Epoche oder auch Aktualität
+     *                       Die sequence number wird als unsigned gezählt aber
+     *                       als sigend (zweierkomplement) interpretiert
+     * @see "Util.twosComplementSubtract()"
+     * @param isValid        = check of sequenceNumber
+     */
     public RoutingRow(int destination, int metrix, int nextHop, int[] precursors, int sequenceNumber, boolean isValid) {
         super(destination, metrix);
         NextHop = nextHop;
@@ -78,7 +89,7 @@ public class RoutingRow extends Row {
 
     @Override
     public String toString() {
-        return "RoutingTabelle{" +
+        return "RoutingRow{" +
                 "NextHop=" + NextHop +
                 ", precursors=" + Arrays.toString(precursors) +
                 ", sequenceNumber=" + sequenceNumber +

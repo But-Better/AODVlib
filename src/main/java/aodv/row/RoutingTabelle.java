@@ -5,6 +5,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RoutingTabelle {
 
@@ -23,6 +24,21 @@ public class RoutingTabelle {
             instance = new RoutingTabelle();
 
         return instance;
+    }
+
+    public boolean add(Row row, int index) {
+        if (row instanceof ReversRoutingRow) {
+            log.info(() -> "add instanceof ReversRoutingRow");
+            this.reversRoutingRows.add(index, (ReversRoutingRow) row);
+            return true;
+        }
+
+        if (row instanceof RoutingRow) {
+            log.info(() -> "add instanceof RoutingRow");
+            this.routingRows.add(index, (RoutingRow) row);
+            return true;
+        }
+        return false;
     }
 
     public boolean add(Row row) {
@@ -53,7 +69,7 @@ public class RoutingTabelle {
     }
 
     public List<RoutingRow> getRoutingRows() {
-        return routingRows;
+        return new LinkedList<>(routingRows);
     }
 
     public void setRoutingRows(List<RoutingRow> routingRows) {
@@ -61,7 +77,7 @@ public class RoutingTabelle {
     }
 
     public List<ReversRoutingRow> getReversRoutingRows() {
-        return reversRoutingRows;
+        return new LinkedList<>(reversRoutingRows);
     }
 
     public void setReversRoutingRows(List<ReversRoutingRow> reversRoutingRows) {

@@ -2,10 +2,16 @@ package aodv.Handle;
 
 import aodv.packet.*;
 
+import aodv.packet.Packet;
+import aodv.packet.RreqPacket;
+import aodv.row.ReversRoutingRow;
+import aodv.row.RoutingTabelle;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Base64;
 
 public class Util {
@@ -40,6 +46,48 @@ public class Util {
             return ((msg[0] - 1) / (int) Math.pow(2, 4));
         }
         return ((msg[0]) / (int) Math.pow(2, 4));
+    }
+
+    /**
+     * Add Routing information from RREQ to {@link RoutingTabelle}
+     *
+     * @param rreqPacket = {@link RreqPacket}
+     */
+    public static void callbackOfRREQ(RreqPacket rreqPacket) {
+        List<ReversRoutingRow> row = RoutingTabelle.getInstance().getReversRoutingRows();
+
+        int index = 0;
+        boolean nodeNotFound = true;
+        for (ReversRoutingRow routingRow : row) {
+            if (rreqPacket.getOriginAddress() == routingRow.getSource()
+                    && rreqPacket.getRequestId() == routingRow.getRreqId()
+            ) {
+                if (rreqPacket.getHopCount() < routingRow.getMetrix()) {
+                    RoutingTabelle.getInstance().add(
+                            new ReversRoutingRow(
+                                    rreqPacket.getDestAddress(),
+                                    rreqPacket.getHopCount(),
+                                    rreqPacket.getOriginAddress(),
+                                    rreqPacket.getRequestId(),
+                                    rreqPacket.getPrevHopAddress()),
+                            index);
+                }
+            } else {
+                nodeNotFound = false;
+            }
+            index++;
+        }
+
+        if (nodeNotFound) {
+            RoutingTabelle.getInstance().add(
+                    new ReversRoutingRow(
+                            rreqPacket.getDestAddress(),
+                            rreqPacket.getHopCount(),
+                            rreqPacket.getOriginAddress(),
+                            rreqPacket.getRequestId(),
+                            rreqPacket.getPrevHopAddress())
+            );
+        }
     }
 
     private <T extends Packet> byte[] objectToByteArray(T packet) {
