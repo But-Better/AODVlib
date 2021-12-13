@@ -38,4 +38,14 @@ public abstract class Packet {
     public void setFlags(int flags) {
         this.flags = flags;
     }
+
+    public Packet(int messageType, int flags, int hopAddress, int prevHopAddress) {
+        this.messageType = messageType;
+        this.flags = flags;
+        this.hopAddress = hopAddress;
+        this.prevHopAddress = prevHopAddress;
+    }
+
+    public Packet() {
+    }
 }
