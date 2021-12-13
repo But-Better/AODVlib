@@ -4,15 +4,13 @@ import java.util.Base64;
 
 public class LoraCommando {
 
-    private final static String END_OF_LINE = "\r\n";
-
     /**
      * convert to lora msg
      *
      * @return a string[] with length of 2
      */
     public static String[] sendMsg(Base64 msg) {
-        return new String[]{LoraConstants.AT_SEND + msg.toString().length() + END_OF_LINE, msg + END_OF_LINE};
+        return new String[]{LoraConstants.AT_SEND + msg.toString().length() + LoraConstants.END_OF_LINE, msg + LoraConstants.END_OF_LINE};
     }
 
     /**
@@ -21,7 +19,7 @@ public class LoraCommando {
      * @return a string[] with length of 2
      */
     public static String[] sendMsg(String msg) {
-        return new String[]{LoraConstants.AT_SEND + msg.length() + END_OF_LINE, msg + END_OF_LINE};
+        return new String[]{LoraConstants.AT_SEND + msg.length() + LoraConstants.END_OF_LINE, msg + LoraConstants.END_OF_LINE};
     }
 
     /**
@@ -34,7 +32,7 @@ public class LoraCommando {
             throw new IllegalArgumentException("Address size isn't 4");
         }
 
-        return new String[]{LoraConstants.AT_DEST + address + END_OF_LINE, LoraConstants.AT_SAVE};
+        return new String[]{LoraConstants.AT_DEST + address + LoraConstants.END_OF_LINE, LoraConstants.AT_SAVE};
     }
 
 
@@ -48,7 +46,7 @@ public class LoraCommando {
             throw new IllegalArgumentException("Address size isn't 4");
         }
 
-        return new String[]{LoraConstants.AT_DEST + destAddress + END_OF_LINE, LoraConstants.AT_SAVE};
+        return new String[]{LoraConstants.AT_DEST + destAddress + LoraConstants.END_OF_LINE, LoraConstants.AT_SAVE};
     }
 
 
@@ -58,7 +56,7 @@ public class LoraCommando {
      * @return a string[] with length of 2
      */
     public static String[] changeCFG(String cfg) {
-        return new String[]{LoraConstants.AT_CFG + cfg + END_OF_LINE, LoraConstants.AT_SAVE};
+        return new String[]{LoraConstants.AT_CFG + cfg + LoraConstants.END_OF_LINE, LoraConstants.AT_SAVE};
     }
 
 
@@ -68,6 +66,11 @@ public class LoraCommando {
      * @return a string[] with length of 4
      */
     public static String[] changeToDefault() {
-        return new String[]{LoraConstants.AT_ADDR_DEFAULT, LoraConstants.AT_DEST_DEFAULT, LoraConstants.AT_CFG_DEFAULT, LoraConstants.AT_SAVE};
+        return new String[]{
+                LoraConstants.AT_ADDR_DEFAULT + LoraConstants.END_OF_LINE,
+                LoraConstants.AT_DEST_DEFAULT + LoraConstants.END_OF_LINE,
+                LoraConstants.AT_CFG_DEFAULT + LoraConstants.END_OF_LINE,
+                LoraConstants.AT_SAVE
+        };
     }
 }

@@ -39,6 +39,11 @@ public class LoraConstants {
      */
     public final static String AT_SEND = "AT+SEND=";
 
+    /**
+     * Ending of all executable line
+     */
+    final static String END_OF_LINE = "\r\n";
+
     //DEFAULT AT COMMANDS
     public static String defaultCfg = "433000000,5,6,12,4,1,0,0,0,0,3000,8,8\r\n";
     public static String defaultAddr = "0001\r\n";
