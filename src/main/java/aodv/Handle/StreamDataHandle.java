@@ -15,7 +15,9 @@ public class StreamDataHandle {
     public static Packet readDataTraffic(byte[] msg) {
         switch (Util.getPacketType(msg)) {
             case 0:
-                return returnRREQ(msg);
+                RreqPacket rreqPacket = returnRREQ(msg);
+                Util.callbackOfRREQ(rreqPacket);
+                return rreqPacket;
             case 1:
                 return returnRREP(msg);
             case 2:
