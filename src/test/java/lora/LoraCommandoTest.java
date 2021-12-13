@@ -7,8 +7,10 @@ public class LoraCommandoTest {
 
     @Test
     void loraCommando() {
-        byte[] value = LoraCommando.changeAddress("FF12")[0].getBytes();
-        Assertions.assertEquals(10, value[value.length-1]);
-        Assertions.assertEquals(13, value[value.length-2]);
+        for (int i = 0; i < 2; i++) {
+            byte[] value = LoraCommando.changeAddress("FF12")[i].getBytes();
+            Assertions.assertEquals(10, value[value.length-1]);
+            Assertions.assertEquals(13, value[value.length-2]);
+        }
     }
 }
