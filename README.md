@@ -5,6 +5,7 @@
 2. send request back after msg response             []
 3. Detect msg                                       [x]
 4. connect to android device                        []
+5. Sequencer                                        []
 
 
 
