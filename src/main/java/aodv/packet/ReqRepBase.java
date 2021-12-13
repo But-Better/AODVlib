@@ -47,4 +47,15 @@ public abstract class ReqRepBase extends Packet {
         this.originAddress = originAddress;
     }
 
+    public ReqRepBase(int messageType, int flags, int hopAddress, int prevHopAddress, int requestId, int destAddress, int destSequence, int hopCount, int originAddress) {
+        super(messageType, flags, hopAddress, prevHopAddress);
+        this.requestId = requestId;
+        this.destAddress = destAddress;
+        this.destSequence = destSequence;
+        this.hopCount = hopCount;
+        this.originAddress = originAddress;
+    }
+
+    public ReqRepBase() {
+    }
 }

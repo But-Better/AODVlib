@@ -10,4 +10,12 @@ public class RreqPacket extends ReqRepBase {
     public int getOriginSequence() {
         return originSequence;
     }
+
+    public RreqPacket(int flags, int prevHopAddress, int requestId, int destAddress, int destSequence, int hopCount, int originAddress, int originSequence) {
+        super(0, flags, -1, prevHopAddress, requestId, destAddress, destSequence, hopCount, originAddress);
+        this.originSequence = originSequence;
+    }
+
+    public RreqPacket() {
+    }
 }
