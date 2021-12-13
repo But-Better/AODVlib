@@ -63,23 +63,27 @@ public class Util {
         return arr;
     }
 
-    /*
+    /**
+     * returns a String base64 encoded message ready to be sent
+     * @param pack the package object
+     * @return a package encoded as a base 64 String
+     */
     public static String encodePackage(Packet pack){
         switch (pack.getMessageType()){
             case 0:
                 return rreqToBase64String((RreqPacket) pack);
             case 1:
-                //trun RREP into base 64 string
+                return rrepToBase64String((RreqPacket) pack);
             case 2:
-                //trun RERR into base 64 string
+                return rerrToBase64String((RerrPacket) pack);
             case 3:
-                //trun MSG into base 64 string
+                return msgToBase64String((MsgPacket) pack);
             case 4:
-                //trun ACK into base 64 string
+                return ackToBase64String((AckPacket) pack);
+            default:
+                return null;
         }
     }
-
-     */
 
     public static String rreqToBase64String(RreqPacket rreq){
         byte[] rreqAsByteArray = new byte[9];
