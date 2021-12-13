@@ -1,6 +1,14 @@
 package aodv.Handle;
 
+import aodv.packages.AckPacket;
+import aodv.packages.MsgPacket;
+import aodv.packages.Packet;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalTime;
+import java.util.Base64;
 
 public class Util {
 
@@ -34,5 +42,26 @@ public class Util {
             return ((msg[0] - 1) / (int) Math.pow(2, 4));
         }
         return ((msg[0]) / (int) Math.pow(2, 4));
+    }
+
+    private <T extends Packet> byte[] objectToByteArray(T packet) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = null;
+        byte[] arr = null;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(packet);
+            out.flush();
+            arr = bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
+        return arr;
     }
 }
