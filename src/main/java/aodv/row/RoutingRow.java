@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class RoutingRow extends Row {
 
-    private transient String name;
     private int NextHop;
     private int[] precursors;
     private int sequenceNumber;
@@ -34,14 +33,6 @@ public class RoutingRow extends Row {
         this.precursors = precursors;
         this.sequenceNumber = sequenceNumber;
         this.isValid = isValid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getNextHop() {
@@ -99,8 +90,7 @@ public class RoutingRow extends Row {
     @Override
     public String toString() {
         return "RoutingRow{" +
-                "name='" + name + '\'' +
-                ", NextHop=" + NextHop +
+                "NextHop=" + NextHop +
                 ", precursors=" + Arrays.toString(precursors) +
                 ", sequenceNumber=" + sequenceNumber +
                 ", isValid=" + isValid +
