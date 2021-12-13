@@ -2,7 +2,7 @@ package aodv.row;
 
 import java.util.Objects;
 
-public class Row {
+public abstract class Row {
 
     private int destination;
     private int metrix;
