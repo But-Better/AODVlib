@@ -29,4 +29,14 @@ public class RerrPacket extends Packet {
     public int[] getDestSequences() {
         return destSequences;
     }
+
+    public RerrPacket(int flags, int hopAddress, int prevHopAddress, int pathCount, int[] destAdresses, int[] destSequences) {
+        super(2, flags, hopAddress, prevHopAddress);
+        this.pathCount = pathCount;
+        this.destAdresses = destAdresses;
+        this.destSequences = destSequences;
+    }
+
+    public RerrPacket() {
+    }
 }

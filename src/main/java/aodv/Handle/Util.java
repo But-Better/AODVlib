@@ -121,7 +121,7 @@ public class Util {
             case 0:
                 return rreqToBase64String((RreqPacket) pack);
             case 1:
-                return rrepToBase64String((RreqPacket) pack);
+                return rrepToBase64String((RrepPacket) pack);
             case 2:
                 return rerrToBase64String((RerrPacket) pack);
             case 3:
@@ -151,7 +151,7 @@ public class Util {
         return rreqAsBase64String;
     }
 
-    private static String rrepToBase64String(RreqPacket rrep){
+    private static String rrepToBase64String(RrepPacket rrep){
         byte[] rrepAsByteArray = new byte[9];
         rrepAsByteArray[0] = 16;
         rrepAsByteArray[1] = (byte)rrep.getHopAddress();
@@ -163,7 +163,7 @@ public class Util {
 
         rrepAsByteArray[6] = (byte)rrep.getHopCount();
         rrepAsByteArray[7] = (byte)rrep.getOriginAddress();
-        rrepAsByteArray[8] = (byte)rrep.getOriginSequence();
+        rrepAsByteArray[8] = (byte)rrep.getTtl();
 
         String rrepAsBase64String = Base64.getEncoder().encodeToString(rrepAsByteArray);
         return rrepAsBase64String;
@@ -193,8 +193,7 @@ public class Util {
     }
 
     private static String msgToBase64String(MsgPacket msg){
-        int arrayLength = 6 + msg.getText().length();
-        byte[] msgAsByteArray = new byte[arrayLength];
+        byte[] msgAsByteArray = new byte[6];
 
         msgAsByteArray[0] = 32+16;
         msgAsByteArray[1] = (byte)msg.getHopAddress();
@@ -202,7 +201,7 @@ public class Util {
 
         msgAsByteArray[3] = (byte)msg.getDestAddress();
         msgAsByteArray[4] = (byte)msg.getOriginSequence();
-        msgAsByteArray[5] = (byte)msg.getHopAddress();
+        msgAsByteArray[5] = (byte)msg.getHopCount();
 
         String firstPartOfReturn = Base64.getEncoder().encodeToString(msgAsByteArray);
         return firstPartOfReturn + msg.getText();
