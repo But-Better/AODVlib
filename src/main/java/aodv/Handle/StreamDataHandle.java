@@ -15,7 +15,7 @@ public class StreamDataHandle {
      *
      * @RREQ (Antworted mit RREP)= möchte ein RREP als Antwort erhalten und bekommen einen Eintrag im ReversRoutingTable
      * @RREP (Antworted nicht) = ist die Bestätigung vom RREQ Request und möchte keine Antwort mehr erhalten
-     * @RERR (Antworted) = Unklar
+     * @RERR (Antworted) = Nutzt denn Precursors um zu gucken, ob Routen
      * @MSG (Antworted mit ACk) = möchte eine ACK Antwort send wenn diese Erhalten wurde#
      * @ACK (Antworted nicht) = Bestätig die Antwort einer Msg
      */
