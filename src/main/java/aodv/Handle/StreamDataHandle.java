@@ -16,7 +16,7 @@ public class StreamDataHandle {
         switch (Util.getPacketType(msg)) {
             case 0:
                 RreqPacket rreqPacket = returnRREQ(msg);
-                Util.callbackOfRREQ(rreqPacket);
+                Util.addToReversRoutungRow(rreqPacket);
                 return rreqPacket;
             case 1:
                 return returnRREP(msg);

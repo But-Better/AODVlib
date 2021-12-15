@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class RoutingRow extends Row {
 
-    private int NextHop;
+    private int nextHop;
     private int[] precursors;
     private int sequenceNumber;
     private boolean isValid = true;
@@ -29,18 +29,18 @@ public class RoutingRow extends Row {
      */
     public RoutingRow(int destination, int metrix, int nextHop, int[] precursors, int sequenceNumber, boolean isValid) {
         super(destination, metrix);
-        NextHop = nextHop;
+        this.nextHop = nextHop;
         this.precursors = precursors;
         this.sequenceNumber = sequenceNumber;
         this.isValid = isValid;
     }
 
     public int getNextHop() {
-        return NextHop;
+        return nextHop;
     }
 
     public void setNextHop(int nextHop) {
-        NextHop = nextHop;
+        this.nextHop = nextHop;
     }
 
     public int[] getPrecursors() {
@@ -77,12 +77,12 @@ public class RoutingRow extends Row {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         RoutingRow that = (RoutingRow) o;
-        return NextHop == that.NextHop && sequenceNumber == that.sequenceNumber && isValid == that.isValid && Arrays.equals(precursors, that.precursors);
+        return nextHop == that.nextHop && sequenceNumber == that.sequenceNumber && isValid == that.isValid && Arrays.equals(precursors, that.precursors);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(super.hashCode(), NextHop, sequenceNumber, isValid);
+        int result = Objects.hash(super.hashCode(), nextHop, sequenceNumber, isValid);
         result = 31 * result + Arrays.hashCode(precursors);
         return result;
     }
@@ -90,7 +90,7 @@ public class RoutingRow extends Row {
     @Override
     public String toString() {
         return "RoutingRow{" +
-                "NextHop=" + NextHop +
+                "NextHop=" + nextHop +
                 ", precursors=" + Arrays.toString(precursors) +
                 ", sequenceNumber=" + sequenceNumber +
                 ", isValid=" + isValid +

@@ -46,7 +46,7 @@ public class LoraConstants {
 
     //DEFAULT AT COMMANDS
     public static String defaultCfg = "433000000,5,6,12,4,1,0,0,0,0,3000,8,8\r\n";
-    public static String defaultAddr = "0001\r\n";
+    public static String defaultAddr = "0123\r\n";
     public static String defaultDest = "FFFF\r\n";
 
     public final static String AT_CFG_DEFAULT = AT_CFG + defaultCfg;

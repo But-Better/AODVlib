@@ -5,7 +5,8 @@ import aodv.packet.*;
 import aodv.packet.Packet;
 import aodv.packet.RreqPacket;
 import aodv.row.ReversRoutingRow;
-import aodv.row.RoutingTabelle;
+import aodv.row.RoutingRow;
+import aodv.row.RoutingTable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,12 +50,12 @@ public class Util {
     }
 
     /**
-     * Add Routing information from RREQ to {@link RoutingTabelle}
+     * Add Routing information from RREQ to {@link RoutingTable}
      *
      * @param rreqPacket = {@link RreqPacket}
      */
-    public static void callbackOfRREQ(RreqPacket rreqPacket) {
-        List<ReversRoutingRow> row = RoutingTabelle.getInstance().getReversRoutingRows();
+    public static void addToReversRoutungRow(RreqPacket rreqPacket) {
+        List<ReversRoutingRow> row = RoutingTable.getInstance().getReversRoutingRows();
 
         int index = 0;
         boolean nodeNotFound = true;
@@ -63,7 +64,7 @@ public class Util {
                     && rreqPacket.getRequestId() == routingRow.getRreqId()
             ) {
                 if (rreqPacket.getHopCount() < routingRow.getMetrix()) {
-                    RoutingTabelle.getInstance().add(
+                    RoutingTable.getInstance().add(
                             new ReversRoutingRow(
                                     rreqPacket.getDestAddress(),
                                     rreqPacket.getHopCount(),
@@ -79,7 +80,7 @@ public class Util {
         }
 
         if (nodeNotFound) {
-            RoutingTabelle.getInstance().add(
+            RoutingTable.getInstance().add(
                     new ReversRoutingRow(
                             rreqPacket.getDestAddress(),
                             rreqPacket.getHopCount(),
@@ -88,6 +89,28 @@ public class Util {
                             rreqPacket.getPrevHopAddress())
             );
         }
+    }
+
+    /**
+     * Init of routing table
+     *
+     * @param address
+     */
+    public static void addToRoutingRowAsInit(int address) {
+        if (RoutingTable.getInstance().isEmptyRoutingRows()) {
+            RoutingTable.getInstance().add(new RoutingRow(
+                    address,
+                    0,
+                    address,
+                    new int[]{},
+                    0,
+                    true
+            ));
+        }
+    }
+
+    public static void addToRoutingRow(RrepPacket rrepPacket) {
+
     }
 
     private <T extends Packet> byte[] objectToByteArray(T packet) {
@@ -113,11 +136,12 @@ public class Util {
 
     /**
      * returns a String base64 encoded message ready to be sent
+     *
      * @param pack the package object
      * @return a package encoded as a base 64 String
      */
-    public static String encodePackage(Packet pack){
-        switch (pack.getMessageType()){
+    public static String encodePackage(Packet pack) {
+        switch (pack.getMessageType()) {
             case 0:
                 return rreqToBase64String((RreqPacket) pack);
             case 1:
@@ -133,7 +157,7 @@ public class Util {
         }
     }
 
-    public static String rreqToBase64String(RreqPacket rreq){
+    public static String rreqToBase64String(RreqPacket rreq) {
         byte[] rreqAsByteArray = new byte[9];
         rreqAsByteArray[0] = setFirstByte(rreq.getMessageType(),rreq.getFlags());
         //rreqAsByteArray[0] += (byte) Math.pow(2,4) * rreq.getMessageType();
@@ -157,9 +181,9 @@ public class Util {
         rrepAsByteArray[1] = (byte)rrep.getHopAddress();
         rrepAsByteArray[2] = (byte)rrep.getPrevHopAddress();
 
-        rrepAsByteArray[3] = (byte)rrep.getRequestId();
-        rrepAsByteArray[4] = (byte)rrep.getDestAddress();
-        rrepAsByteArray[5] = (byte)rrep.getDestSequence();
+        rrepAsByteArray[3] = (byte) rrep.getRequestId();
+        rrepAsByteArray[4] = (byte) rrep.getDestAddress();
+        rrepAsByteArray[5] = (byte) rrep.getDestSequence();
 
         rrepAsByteArray[6] = (byte)rrep.getHopCount();
         rrepAsByteArray[7] = (byte)rrep.getOriginAddress();
@@ -177,15 +201,15 @@ public class Util {
         rerrAsByteArray[1] = (byte)rerr.getHopAddress();
         rerrAsByteArray[2] = (byte)rerr.getPrevHopAddress();
 
-        rerrAsByteArray[3] = (byte)rerr.getPathCount();
-        rerrAsByteArray[4] = (byte)rerr.getDestAdresses()[0];
-        rerrAsByteArray[5] = (byte)rerr.getDestSequences()[0];
+        rerrAsByteArray[3] = (byte) rerr.getPathCount();
+        rerrAsByteArray[4] = (byte) rerr.getDestAdresses()[0];
+        rerrAsByteArray[5] = (byte) rerr.getDestSequences()[0];
 
         int startHere = 5;
-        for(int i = 1; i < rerr.getDestAdresses().length; ++i){
-            rerrAsByteArray[startHere+i] = (byte)rerr.getDestAdresses()[i];
-            rerrAsByteArray[++startHere+i] = (byte)rerr.getDestSequences()[i];
-            rerrAsByteArray[++startHere+i] = 0;
+        for (int i = 1; i < rerr.getDestAdresses().length; ++i) {
+            rerrAsByteArray[startHere + i] = (byte) rerr.getDestAdresses()[i];
+            rerrAsByteArray[++startHere + i] = (byte) rerr.getDestSequences()[i];
+            rerrAsByteArray[++startHere + i] = 0;
         }
 
         String rerrAsBase64String = Base64.getEncoder().encodeToString(rerrAsByteArray);
@@ -207,7 +231,7 @@ public class Util {
         return firstPartOfReturn + msg.getText();
     }
 
-    private static String ackToBase64String(AckPacket ack){
+    private static String ackToBase64String(AckPacket ack) {
         byte[] ackAsByteArray = new byte[3];
 
         ackAsByteArray[0] = setFirstByte(ack.getMessageType(),ack.getFlags());
