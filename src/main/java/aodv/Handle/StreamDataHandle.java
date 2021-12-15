@@ -168,16 +168,16 @@ public class StreamDataHandle {
     }
 
     /**
-     * takes the first byte and returns 1 if a flag is set 0 if not
+     * takes the first byte and the value of the last 4 bit
      *
      * @param typeAndFlags the first byte of the byte array input
-     * @return 1 if a flag is set 0 if not
+     * @return last 4 bit value as byte
      */
     private static int returnFlags(byte typeAndFlags) {
-        if (typeAndFlags % 2 == 1) {
-            return 1;
-        }
-        return 0;
+        byte frontOfByte = (byte) ((byte) (typeAndFlags / Math.pow(2,4))*Math.pow(2,4));
+        byte backOfByte = (byte) (typeAndFlags - frontOfByte);
+
+        return backOfByte;
     }
 
 }

@@ -135,9 +135,9 @@ public class Util {
 
     public static String rreqToBase64String(RreqPacket rreq){
         byte[] rreqAsByteArray = new byte[9];
-        rreqAsByteArray[0] = (byte)rreq.getFlags();
+        rreqAsByteArray[0] = setFirstByte(rreq.getMessageType(),rreq.getFlags());
         //rreqAsByteArray[0] += (byte) Math.pow(2,4) * rreq.getMessageType();
-        rreqAsByteArray[1] = -1;
+        rreqAsByteArray[1] = -1; //11111111
         rreqAsByteArray[2] = (byte)rreq.getPrevHopAddress();
         rreqAsByteArray[3] = (byte)rreq.getRequestId();
         rreqAsByteArray[4] = (byte)rreq.getDestAddress();
@@ -153,7 +153,7 @@ public class Util {
 
     private static String rrepToBase64String(RrepPacket rrep){
         byte[] rrepAsByteArray = new byte[9];
-        rrepAsByteArray[0] = 16;
+        rrepAsByteArray[0] = setFirstByte(rrep.getMessageType(),rrep.getFlags());
         rrepAsByteArray[1] = (byte)rrep.getHopAddress();
         rrepAsByteArray[2] = (byte)rrep.getPrevHopAddress();
 
@@ -173,7 +173,7 @@ public class Util {
         int arraySize = rerr.getDestAdresses().length*3 +3;
         byte[] rerrAsByteArray = new byte[arraySize];
 
-        rerrAsByteArray[0] = 32;
+        rerrAsByteArray[0] = setFirstByte(rerr.getMessageType(),rerr.getFlags());
         rerrAsByteArray[1] = (byte)rerr.getHopAddress();
         rerrAsByteArray[2] = (byte)rerr.getPrevHopAddress();
 
@@ -195,7 +195,7 @@ public class Util {
     private static String msgToBase64String(MsgPacket msg){
         byte[] msgAsByteArray = new byte[6];
 
-        msgAsByteArray[0] = 32+16;
+        msgAsByteArray[0] = setFirstByte(msg.getMessageType(),msg.getFlags());
         msgAsByteArray[1] = (byte)msg.getHopAddress();
         msgAsByteArray[2] = (byte)msg.getPrevHopAddress();
 
@@ -210,12 +210,18 @@ public class Util {
     private static String ackToBase64String(AckPacket ack){
         byte[] ackAsByteArray = new byte[3];
 
-        ackAsByteArray[0] = 64;
+        ackAsByteArray[0] = setFirstByte(ack.getMessageType(),ack.getFlags());
         ackAsByteArray[1] = (byte)ack.getHopAddress();
         ackAsByteArray[2] = (byte)ack.getPrevHopAddress();
 
         String ackAsBAse64String = Base64.getEncoder().encodeToString(ackAsByteArray);
         return ackAsBAse64String;
+    }
+
+    private static byte setFirstByte(int type, int flags){
+        byte typeInByte = (byte) ((byte) type*Math.pow(2,4));
+        byte flagsInByte = (byte) flags;
+        return (byte) (typeInByte+flagsInByte);
     }
 
 
