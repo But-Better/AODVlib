@@ -11,6 +11,13 @@ public class StreamDataHandle {
      *
      * @param msg as a byte array
      * @return msg as a packet object when the packet could be identified, null when the type could not be identified
+     *
+     *
+     * @RREQ (Antworted mit RREP)= möchte ein RREP als Antwort erhalten und bekommen einen Eintrag im ReversRoutingTable
+     * @RREP (Antworted nicht) = ist die Bestätigung vom RREQ Request und möchte keine Antwort mehr erhalten
+     * @RERR (Antworted) = Unklar
+     * @MSG (Antworted mit ACk) = möchte eine ACK Antwort send wenn diese Erhalten wurde#
+     * @ACK (Antworted nicht) = Bestätig die Antwort einer Msg
      */
     public static Packet readDataTraffic(byte[] msg) {
         switch (Util.getPacketType(msg)) {
