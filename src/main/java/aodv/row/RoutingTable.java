@@ -5,23 +5,22 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class RoutingTabelle {
+public class RoutingTable {
 
-    private static RoutingTabelle instance = null;
+    private static RoutingTable instance = null;
     private List<RoutingRow> routingRows = null;
     private List<ReversRoutingRow> reversRoutingRows = null;
-    private final Logger log = LoggerFactory.getLogger(RoutingTabelle.class);
+    private final Logger log = LoggerFactory.getLogger(RoutingTable.class);
 
-    private RoutingTabelle() {
+    private RoutingTable() {
         this.routingRows = new LinkedList<>();
         this.reversRoutingRows = new LinkedList<>();
     }
 
-    public static RoutingTabelle getInstance() {
+    public static RoutingTable getInstance() {
         if (instance == null)
-            instance = new RoutingTabelle();
+            instance = new RoutingTable();
 
         return instance;
     }
