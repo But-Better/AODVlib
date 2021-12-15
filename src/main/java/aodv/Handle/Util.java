@@ -110,7 +110,7 @@ public class Util {
     }
 
     public static void addToRoutingRow(RrepPacket rrepPacket) {
-        
+
     }
 
     private <T extends Packet> byte[] objectToByteArray(T packet) {
@@ -193,8 +193,8 @@ public class Util {
         return rrepAsBase64String;
     }
 
-    private static String rerrToBase64String(RerrPacket rerr) {
-        int arraySize = rerr.getDestAdresses().length * 3 + 3;
+    private static String rerrToBase64String(RerrPacket rerr){
+        int arraySize = rerr.getDestAdresses().length*3 +3;
         byte[] rerrAsByteArray = new byte[arraySize];
 
         rerrAsByteArray[0] = 32;
@@ -242,6 +242,8 @@ public class Util {
         String ackAsBAse64String = Base64.getEncoder().encodeToString(ackAsByteArray);
         return ackAsBAse64String;
     }
+
+
 
 
 }

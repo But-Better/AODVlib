@@ -10,4 +10,12 @@ public class RrepPacket extends ReqRepBase {
     public void setTtl(int ttl) {
         this.ttl = ttl;
     }
+
+    public RrepPacket(int flags, int hopAddress, int prevHopAddress, int requestId, int destAddress, int destSequence, int hopCount, int originAddress, int ttl) {
+        super(1, flags, hopAddress, prevHopAddress, requestId, destAddress, destSequence, hopCount, originAddress);
+        this.ttl = ttl;
+    }
+
+    public RrepPacket() {
+    }
 }

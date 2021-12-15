@@ -37,4 +37,15 @@ public class MsgPacket extends Packet {
     public void setText(String text) {
         this.text = text;
     }
+
+    public MsgPacket(int flags, int hopAddress, int prevHopAddress, int destAddress, int originSequence, int hopCount, String text) {
+        super(3, flags, hopAddress, prevHopAddress);
+        this.destAddress = destAddress;
+        this.originSequence = originSequence;
+        this.hopCount = hopCount;
+        this.text = text;
+    }
+
+    public MsgPacket() {
+    }
 }
